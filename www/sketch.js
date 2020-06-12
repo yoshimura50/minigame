@@ -14,6 +14,7 @@ function draw(){
   rect(50,50,50,50);
 }
 
+//障害物をランダムに移動させる
 /*game.startScene=function(){
   var rectt =
   rect(50,50,50,50);

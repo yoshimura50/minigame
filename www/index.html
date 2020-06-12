@@ -19,13 +19,12 @@
       var page = event.target;
 
       if (page.matches('#first-page')) {
-
         page.querySelector('#first1-button').onclick = function() {
           document.querySelector('#navigator').pushPage('sketch.js');
         };
       }
     }
-    
+
     if (ons.platform.isIPhoneX()) {
       document.documentElement.setAttribute('onsflag-iphonex-portrait', '');
       document.documentElement.setAttribute('onsflag-iphonex-landscape', '');
