@@ -1,9 +1,23 @@
 function setup(){
   createCanvas(windowWidth,windowHeight);
+  textFont('Arial');
+  background(255);
+  button=createButton('GAME START! [click]');
+  button.position(50,200);
+  button.style("width","300px");
+  button.style("height","200px");
+  button.class("moji");
+  button.mousePressed(draw);
 }
 
+let button;
+
 function draw(){
-  background(204);
+  if(mouseIsPressed){
+    //ゲーム画面でやる処理
+    button.remove();
+    createCanvas(windowWidth,windowHeight);
+   background(255);
   if(mouseIsPressed){
     fill(0);
   } else{
@@ -12,7 +26,9 @@ function draw(){
   ellipse(mouseX,mouseY,40,40);
 
   rect(50,50,50,50);
+  }
 }
+
 
 //障害物をランダムに移動させる
 /*game.startScene=function(){

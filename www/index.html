@@ -14,36 +14,8 @@
 <script src="p5.min.js"></script>
 <script src="sketch.js"></script>
   <script>
-     // Page init event
-    document.addEventListener('init', function(event) {
-      var page = event.target;
-
-      if (page.matches('#first-page')) {
-        page.querySelector('#first1-button').onclick = function() {
-          document.querySelector('#navigator').pushPage('sketch.js');
-        };
-      }
-    }
-
-    if (ons.platform.isIPhoneX()) {
-      document.documentElement.setAttribute('onsflag-iphonex-portrait', '');
-      document.documentElement.setAttribute('onsflag-iphonex-landscape', '');
-    }
   </script>
 </head>
 <body>
-  <ons-navigator id="navigator" page="page1.html"></ons-navigator>
-
-  <ons-template id="page1.html">
-    <ons-page id="first-page">
-      <ons-toolbar>
-        <div class="center">GAME START!</div>
-      </ons-toolbar>
-
-      <div class="content" style="text-align: center">
-        <ons-button large--quiet id="first1-button">ここをクリック！</ons-button>
-      </div>
-    </ons-page>
-  </ons-template>
 </body>
 </html>
