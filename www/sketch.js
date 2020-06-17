@@ -1,7 +1,7 @@
 function setup(){
   createCanvas(windowWidth,windowHeight);
   textFont('Arial');
-  background(255);
+  background(248,248,255);
   button=createButton('GAME START! [click]');
   button.position(50,200);
   button.style("width","300px");
@@ -12,57 +12,40 @@ function setup(){
 
 let button;
 
+
 function draw(){
   if(mouseIsPressed){
     //ゲーム画面でやる処理
     button.remove();
-    createCanvas(windowWidth,windowHeight);
-   background(255);
-  if(mouseIsPressed){
-    fill(0);
-  } else{
-    fill(255);
-  }
-  ellipse(mouseX,mouseY,40,40);
-
-  rect(50,50,50,50);
+    background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+  translate(mouseX, mouseY);
+  // 顔の描画
+  ellipse(0, 0, 40, 40);
+ // ellipse(100, 0, 40, 40);
+ // arc(50, 50, 100, 50, 0, PI);
   }
 }
-
-
-//障害物をランダムに移動させる
-/*game.startScene=function(){
-  var rectt =
-  rect(50,50,50,50);
-  rectt.x=Math.random();
-  rectt.y=Math.random();
-}*/
-
-/*var createGameScene=function(){
-  var sikaku = rect(50,50,50,50);
-  sikaku.x=-sikaku.wedth;
-  sikaku.y=sikaku.height;
-}*/
-
-//実行できない
-/*onClipEvent(load){
-  var spd=10;
-  var kaku = Math.random()*2*Math.Pl;
-}
-onClipEvent(enterFrame){
-  if(this._x<=this._width/2){
-    this._x=this._width/2;
-
-    kaku = Math.random()*Math.Pl-(Math.Pl/2);
+  /*//  createCanvas(windowWidth,windowHeight);
+  background(50);
+  //  background(248,248,255);
+    stroke(255);
+    strokeWeight(8);
+    noFill();
+    translate(mouseX,mouseY);
+    ellipse(100,0,40,40);
   }
-  else if(this._y<=this._height/2){
-    this._y=this._height/2;
-    kaku = Math.random()*Math.Pl;
-  }
-  else if(this._y>=Stage.height-(this._height/2)){
-    this._y=Stage.height-(this._height/2);
-    kaku = Math.random()*Math.Pl+Math.Pl;
-  }
-  this._x +=spd*Math.cos(kaku);
-  this._y +=spd*Math.sin(kaku);
 }*/
+    
+     /* fill(c[i],50,100);
+    ellipse(x[i],y[i],r[i],r[i]);
+  fill(150);
+  ellipse(mouseX, mouseY, 10, 30);     
+ ellipse(mouseX, mouseY-20, 10, 10);
+  ellipse(mouseX-2, mouseY+25, 5, 30);
+  ellipse(mouseX+5, mouseY+25, 5, 30);
+  ellipse(mouseX+7, mouseY-2, 3, 15);
+  ellipse(mouseX-7, mouseY-10, 20, 3);
+  ellipse(mouseX-20, mouseY+5, 5);*/
