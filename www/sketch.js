@@ -41,8 +41,20 @@ function setup(){
   button.mousePressed(draw);
 }
 
+//タイマー
+ var count = 10;
+  var countdown = function(){
+    //document.getElementById('timer').textContent = count.toString();
+    console.log(count--);
+    var id = setTimeout(countdown, 1000);
+    if(count < 0){
+      clearTimeout(id);
+      background(255);
+    }
+  }
 
 function draw(){
+  countdown();
 //マウス追従
   /*  if(mouseIsPressed){
     //ゲーム画面でやる処理
@@ -86,6 +98,7 @@ function draw(){
         rect.velocity.y = abs(rect.velocity.y);
     }
    }
+
 }
 
 //四角にして改良
