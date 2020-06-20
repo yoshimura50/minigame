@@ -1,110 +1,100 @@
+/*ボタン*/
 let button;
-let sence;
-let sp;
-// 赤い円スプライトの直径
-const diameter = 20;
-// 左の壁 => キャンバスの左端(x=0)
-const leftWall = 0;
-// 上の壁 => キャンバスの上端(y=0)
-const topWall = 0;
-let rightWall;
-let bottomWall;
-const offset = diameter / 2;
 
-// 円の中心位置  
-/*var locationX;  
+/*タイマー*/
+var timer;
+var counter = 10;
+var seconds, minutes;
+
+//円の中心位置  
+var locationX;  
 var locationY;
 // 円の速度  
 var velocityX;  
-var velocityY;*/
+var velocityY;
+/*ボタンをクリックされる前：０、された後：１*、ゲーム結果：３*/
+var game=0;
 
+/*ボタン、障害物の用意*/
 function setup(){
   createCanvas(windowWidth,windowHeight);
   textFont('Arial');
   background(248,248,255);
+
+  //ボタン
   button=createButton('GAME START! [click]');
   button.position(50,200);
   button.style("width","300px");
   button.style("height","200px");
   button.class("moji");
 
-  rightWall = width;
-  bttomWall = height;
+  //タイマー
+  timer = createP("timer");
+  setInterval(timeIt, 1000);
 
-
- /* locationX = 0;  
+  //円
+  locationX = 0;  
   locationY = 0;  
   // 円の速度  
   velocityX = 3;  
-  velocityY = 2; */
+  velocityY = 2;
 
-  button.mousePressed(draw);
 }
 
-//タイマー
- var count = 10;
-  var countdown = function(){
-    //document.getElementById('timer').textContent = count.toString();
-    console.log(count--);
-    var id = setTimeout(countdown, 1000);
-    if(count < 0){
-      clearTimeout(id);
-      background(255);
-    }
-  }
-
+/*画面変更*/
 function draw(){
-  countdown();
-//マウス追従
-  /*  if(mouseIsPressed){
-    //ゲーム画面でやる処理
-    button.remove();
-    background(50);
-    stroke(255);
-    strokeWeight(8);
-    noFill();
-    translate(mouseX, mouseY);
-    ellipse(0, 0, 40, 40);
-   }
-}*/
- 
- //四角が壁に当たるとバウンドする
-   if(mouseIsPressed){
-          button.remove();
-    background(50);
-      fill(255,0,0);
-     rect(random(width),random(height),random(50,50,50,50));
-       // 四角スプライトと壁との位置関係を調べ、
-    // 四角が壁を超えたら、反転(跳ね返り)
-    if (rect.x > rightWall) {
-        rect.x = rightWall - 50;
-        // 跳ね返り
-        rect.velocity.x = 3000;
-    }
-    else if (rect.x < leftWall) {
-        rect.x = leftWall + 50;
-        // 跳ね返り
-        rect.velocity.x = 1;
-    }
-
-    if (rect.y > bottomWall) {
-        rect.y = bottomWall - 50;
-        // 跳ね返り
-        rect.velocity.y = -abs(rect.velocity.y);
-    }
-    else if (rect.y < topWall) {
-        rect.y = topWall + 50;
-        // 跳ね返り
-        rect.velocity.y = abs(rect.velocity.y);
-    }
-   }
-
+ button.mousePressed(flag);
+ background(50);
+ if(game == 1){
+play();
+ } else if(game == 2){
+   //ゲームオーバー画面*/
+   drawGameoverScreen();
+ }
+ else if(game == 3){
+   //ゲームクリア画面*/
+   drawGameclearScreen();
+ }
 }
 
-//四角にして改良
-/*function location(){
-   if(mouseIsPressed){
-      background(50);
+/*ボタンをクリックされたら消す*/
+function flag(){
+ game = 1;
+ button.remove();
+}
+
+/*タイマー（10秒）*/
+function timeIt() {
+  // 1 counter = 1 second
+  if (counter > 0) {
+    counter--;
+  }
+  
+	minutes = floor(counter/60);
+    seconds = counter % 60;
+  
+  // if (counter < 60)
+  
+  timer.html(minutes + ":" + seconds);
+}
+
+/*マウスに追従する円の表示*/
+function play(){
+ location();
+ timeIt();
+ fill(255,255,255);
+ ellipse(mouseX,mouseY,50,50);
+ entitiesAreColliding(10,10);
+ fill(255);
+ //("lx"+locationX+"\npX"+mouseX,200,200);
+ //("ly"+locationY+"\nly"+mouseY,200,300);
+ //("a"+abs(locationX-mouseX),200,400);
+}
+
+/*障害物の表示*/
+function location(){
+    createCanvas(windowWidth,windowHeight);
+    background(50);
    // 円の座標を更新  
     locationX = locationX + velocityX;  
     locationY = locationY + velocityY;  
@@ -115,7 +105,7 @@ function draw(){
     fill(247, 12, 32);  
 
     // 円を描画  
-    ellipse(locationX, locationY, 50, 50);  
+    rect(locationX, locationY, 50, 50);  
 
     // 画面の左端、もしくは右端に到達した場合  
     if (locationX < 0 || locationX > width) {  
@@ -126,30 +116,44 @@ function draw(){
     if (locationY < 0 || locationY > height) {  
         // Y軸の速度を反転  
         velocityY = velocityY * -1;  
-    }  
    }
-}*/
+}
 
-//使ってない
-/*function draw2() {
-  vecLocation.add(vecVelocity); // 速度を位置に足している
-  fill(160, 100, 50, 100); // 色
-  ellipse(vecLocation.x, vecLocation.y, 20, 20); //だ円
-  if( vecLocation.x < 0 || vecLocation.x > width){
-    vecVelocity.x = vecVelocity.x * -1;
-  }
-  if(vecLocation.y < 0 || vecLocation.y > height){
-    vecVelocity.y = vecVelocity.y * -1;
+/*当たり判定*/
+function entitiesAreColliding(
+  collisionXDistance,
+  collisionYDistance
+) {
+  // xとy、いずれかの距離が十分開いていたら、衝突していないので false を返す
+  // 現在のy距離
+  var currentXDistance = abs(locationX - mouseX);
+  var currentYDistance = abs(locationY-mouseY);
+  if (collisionXDistance <= currentXDistance && collisionYDistance <= currentYDistance){
+    return false;
+  } else if(collisionXDistance <= currentXDistance && collisionYDistance <= currentYDistance && counter==0){
+    game=3;
+    return true;
+  } else{
+    game=2;
+    return true;
   }
 }
-    
-     /* fill(c[i],50,100);
-    ellipse(x[i],y[i],r[i],r[i]);
-  fill(150);
-  ellipse(mouseX, mouseY, 10, 30);     
- ellipse(mouseX, mouseY-20, 10, 10);
-  ellipse(mouseX-2, mouseY+25, 5, 30);
-  ellipse(mouseX+5, mouseY+25, 5, 30);
-  ellipse(mouseX+7, mouseY-2, 3, 15);
-  ellipse(mouseX-7, mouseY-10, 20, 3);
-  ellipse(mouseX-20, mouseY+5, 5);*/
+
+/** ゲームオーバー画面を表示する */
+function drawGameoverScreen() {
+  // 透明度 192 の黒
+  background(0, 192); 
+  fill(255);
+  // 横に中央揃え ＆ 縦にも中央揃え
+  textSize(60);
+  // 画面中央にテキスト表示
+  text("GAME OVER", width / 25, height / 2); 
+}
+
+/*ゲームクリア画面*/
+function drawGameclearScreen(){
+  background(255,218,185);
+  fill(255);
+  textSize(60);
+  text("GAME CLEAR", width / 25, height / 2); 
+}
